@@ -421,4 +421,952 @@
           </div>
           <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
             <div class="flex justify-between font-bold"><span>🦵 Rodillas y Tren Inferior</span><span id="fat-val-knees">9/10</span></div>
-            <input type="range
+            <input type="range" id="fat-knees" min="1" max="10" value="9" oninput="updateFatigueMap()" class="w-full accent-blue-600" />
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+            <div class="flex justify-between font-bold"><span>腰 Espalda Baja / Postura</span><span id="fat-val-back">8/10</span></div>
+            <input type="range" id="fat-back" min="1" max="10" value="8" oninput="updateFatigueMap()" class="w-full accent-indigo-600" />
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+            <div class="flex justify-between font-bold"><span>🗣️ Garganta y Cuerdas Vocales</span><span id="fat-val-voice">8/10</span></div>
+            <input type="range" id="fat-voice" min="1" max="10" value="8" oninput="updateFatigueMap()" class="w-full accent-purple-600" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         MÓDULO 2: HIDRATACIÓN DINÁMICA SOLAR Y SALUD VOCAL DOCENTE
+    ======================================================================== -->
+    <section id="bio-sec-hidratacion" class="hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- Calculadora Dinámica de Hidratación para Tuxtla -->
+        <div class="lg:col-span-7 apple-card p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-black/5 pb-3">
+            <div>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-sky-500/15 text-sky-700">☀️ Clima Tuxtla Gutiérrez</span>
+              <h3 class="font-extrabold text-base mt-1">Calculadora de Hidratación y Electrolitos por Jornada</h3>
+              <p class="text-xs text-slate-500">Ajusta tu meta de agua según tu peso y cuántas sesiones de 50 min diste hoy en cancha.</p>
+            </div>
+            <button type="button" onclick="resetWater()" class="text-xs font-bold text-rose-500 hover:underline">Reiniciar Hoy</button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div>
+              <label class="block font-bold text-slate-500 uppercase text-[10px] mb-1">Tu Peso Corporal (kg):</label>
+              <input type="number" id="hydra-weight" value="72" min="40" max="140" oninput="recalcHydrationGoal()" class="w-full px-3 py-2 font-bold" />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-500 uppercase text-[10px] mb-1">Sesiones en Patio Hoy (50 min):</label>
+              <input type="number" id="hydra-sessions" value="3" min="0" max="8" oninput="recalcHydrationGoal()" class="w-full px-3 py-2 font-bold" />
+            </div>
+            <div>
+              <label class="block font-bold text-slate-500 uppercase text-[10px] mb-1">Sensación Térmica:</label>
+              <select id="hydra-climate" onchange="recalcHydrationGoal()" class="w-full px-3 py-2 font-bold">
+                <option value="0">Domo Techado / Fresco (<28°C)</option>
+                <option value="0.4" selected>Calor Moderado (29°C - 33°C)</option>
+                <option value="0.8">Sol Intenso Tuxtla (>34°C)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Progreso Visual de Agua -->
+          <div class="p-5 rounded-3xl bg-gradient-to-r from-sky-900 to-blue-950 text-white space-y-3">
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="text-[11px] uppercase font-bold text-sky-300">Progreso de Hidratación Hoy</div>
+                <div class="text-3xl sm:text-4xl font-black mt-0.5"><span id="hydra-current-txt">0.00</span> <span class="text-lg font-normal text-sky-200">/ <span id="hydra-goal-txt">3.2</span> Litros</span></div>
+              </div>
+              <span id="hydra-pct-badge" class="text-sm font-black px-3 py-1 rounded-full bg-sky-400/20 text-sky-200 border border-sky-300/30">0%</span>
+            </div>
+            <div class="w-full h-3.5 bg-white/15 rounded-full overflow-hidden">
+              <div id="hydra-progress-bar" class="h-full bg-gradient-to-r from-sky-400 to-emerald-400 transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <p id="electrolyte-tip" class="text-xs text-sky-200">
+              💡 Tip: Con 3 sesiones bajo calor moderado, incluye al menos 500 ml con electrolitos o suero oral sin exceso de azúcar.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <button type="button" onclick="addWater(0.25)" class="p-3 rounded-2xl bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 font-extrabold text-xs flex flex-col items-center gap-1">
+              <span class="text-lg">🥛</span>
+              <span>+250 ml (Vaso)</span>
+            </button>
+            <button type="button" onclick="addWater(0.5)" class="p-3 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-extrabold text-xs flex flex-col items-center gap-1 shadow-sm">
+              <span class="text-lg">🍼</span>
+              <span>+500 ml (Termo)</span>
+            </button>
+            <button type="button" onclick="addWater(0.75)" class="p-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs flex flex-col items-center gap-1 shadow-sm">
+              <span class="text-lg">⚡</span>
+              <span>+750 ml (Deportivo)</span>
+            </button>
+            <button type="button" onclick="addWater(1.0)" class="p-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs flex flex-col items-center gap-1 shadow-sm">
+              <span class="text-lg">🧊</span>
+              <span>+1.0 L (Termo Pro)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cuidado de la Voz Docente en Cancha -->
+        <div class="lg:col-span-5 apple-card p-5 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="border-b border-black/5 pb-3">
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-700">🗣️ Higiene Vocal en Cancha</span>
+              <h3 class="font-extrabold text-base mt-1">Protección de Cuerdas Vocales del Educador Físico</h3>
+              <p class="text-xs text-slate-500">Evita la disfonía por gritar en espacios abiertos usando códigos acústicos y calentamiento previo.</p>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <label class="flex items-start gap-2.5 p-3 rounded-2xl bg-slate-50 border border-slate-200/70 cursor-pointer">
+                <input type="checkbox" id="vocal-chk-1" onchange="saveBioState()" class="mt-0.5 w-4 h-4 rounded text-purple-600" />
+                <div>
+                  <div class="font-extrabold text-slate-900">1. Calentamiento Vocal Matutino (2 min)</div>
+                  <p class="text-[11px] text-slate-500">Vibración labial ("Brrr") y resonancia nasal suave ("Mmmm") antes de la primera clase.</p>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-2.5 p-3 rounded-2xl bg-slate-50 border border-slate-200/70 cursor-pointer">
+                <input type="checkbox" id="vocal-chk-2" onchange="saveBioState()" class="mt-0.5 w-4 h-4 rounded text-purple-600" />
+                <div>
+                  <div class="font-extrabold text-slate-900">2. Regla "Silbato + Consigna en Círculo"</div>
+                  <p class="text-[11px] text-slate-500">Nunca dar instrucciones mientras el grupo está disperso; reunir en media luna a menos de 4 metros.</p>
+                </div>
+              </label>
+
+              <label class="flex items-start gap-2.5 p-3 rounded-2xl bg-slate-50 border border-slate-200/70 cursor-pointer">
+                <input type="checkbox" id="vocal-chk-3" onchange="saveBioState()" class="mt-0.5 w-4 h-4 rounded text-purple-600" />
+                <div>
+                  <div class="font-extrabold text-slate-900">3. Sorbo de Agua a Temperatura Ambiente</div>
+                  <p class="text-[11px] text-slate-500">Lubricar la mucosa laríngea cada 20 minutos durante la sesión en cancha (evitar agua helada de golpe al hablar).</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <button type="button" onclick="startExerciseTimer('Calentamiento Vocal Docente', 'Realiza vibración de labios suave e inhalación nasal diafragmática.', 120)" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs py-3 rounded-2xl shadow-sm">
+            ⏱️ Iniciar 2 Minutos de Calentamiento Vocal
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         MÓDULO 3: NUTRICIÓN DEPORTIVA Y SNACKS DE PATIO (ESTILO MACROFACTOR)
+    ======================================================================== -->
+    <section id="bio-sec-nutricion" class="hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- Calculadora de Gasto Energético Real para Prevenir Déficit Calórico -->
+        <div class="lg:col-span-6 apple-card p-5 space-y-4">
+          <div class="border-b border-black/5 pb-3">
+            <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-700">🔥 Estilo MacroFactor</span>
+            <h3 class="font-extrabold text-base mt-1">Control de Gasto Energético y Prevención de Déficit</h3>
+            <p class="text-xs text-slate-500">Evita perder masa muscular o sufrir fatiga extrema por el alto desgaste físico bajo el sol.</p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+            <div>
+              <label class="block font-bold text-slate-500 uppercase text-[10px] mb-1">Objetivo Actual:</label>
+              <select id="nutri-goal-mode" onchange="calcNutritionNeeds()" class="w-full px-2.5 py-2 font-bold">
+                <option value="0" selected>Mantenimiento / Rendimiento</option>
+                <option value="300">Superávit Limpio (+Masa)</option>
+                <option value="-250">Definición Ligera</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-500 uppercase text-[10px] mb-1">Entrenamiento Hoy:</label>
+              <select id="nutri-gym-load" onchange="calcNutritionNeeds()" class="w-full px-2.5 py-2 font-bold">
+                <option value="150">Solo Rehab / Movilidad</option>
+                <option value="350" selected>Fuerza / Gimnasio (60m)</option>
+                <option value="550">Fuerza + Práctica Intensa</option>
+              </select>
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label class="block font-bold text-slate-500 uppercase text-[10px] mb-1">Meta Kcal Calculada:</label>
+              <div id="nutri-target-kcal" class="px-3 py-2 rounded-xl bg-amber-500/15 text-amber-700 font-black text-sm text-center">2,650 kcal</div>
+            </div>
+          </div>
+
+          <!-- Macros Recomendados vs Consumidos -->
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3 text-xs">
+            <div class="flex items-center justify-between font-extrabold">
+              <span>Registro Rápido de Energía Hoy:</span>
+              <span id="nutri-consumed-badge" class="text-blue-600">0 / 2650 kcal</span>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="p-2.5 rounded-xl bg-white border border-black/5">
+                <div class="text-[10px] font-bold text-slate-400 uppercase">Proteína</div>
+                <div class="font-black text-sm text-rose-600"><span id="macro-pro-cur">0</span> / <span id="macro-pro-goal">145</span>g</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white border border-black/5">
+                <div class="text-[10px] font-bold text-slate-400 uppercase">Carbohidratos</div>
+                <div class="font-black text-sm text-amber-600"><span id="macro-carb-cur">0</span> / <span id="macro-carb-goal">340</span>g</div>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white border border-black/5">
+                <div class="text-[10px] font-bold text-slate-400 uppercase">Grasas Saludables</div>
+                <div class="font-black text-sm text-emerald-600"><span id="macro-fat-cur">0</span> / <span id="macro-fat-goal">75</span>g</div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-2 pt-1">
+              <button type="button" onclick="addQuickMeal(550, 35, 65, 15, 'Desayuno Completo')" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 px-3 rounded-xl text-[11px]">
+                + Desayuno (~550 kcal)
+              </button>
+              <button type="button" onclick="addQuickMeal(750, 45, 90, 22, 'Comida Fuerte')" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-bold py-2 px-3 rounded-xl text-[11px]">
+                + Comida (~750 kcal)
+              </button>
+              <button type="button" onclick="resetNutritionToday()" class="px-3 py-2 rounded-xl bg-rose-50 text-rose-600 font-bold text-[11px]">
+                ↺
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recetario Rápido de Snacks de Patio (10 Minutos de Receso) -->
+        <div class="lg:col-span-6 apple-card p-5 space-y-4">
+          <div class="border-b border-black/5 pb-3">
+            <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700">🍎 Colaciones Express</span>
+            <h3 class="font-extrabold text-base mt-1">Snacks de Patio (Para Comer en 10 Minutos de Receso)</h3>
+            <p class="text-xs text-slate-500">Toca cualquier colación para sumarla automáticamente a tus calorías y proteínas del día:</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div onclick="addQuickMeal(380, 24, 48, 9, 'Sándwich de Pollo/Atún')" class="cursor-pointer p-3.5 rounded-2xl bg-slate-50 hover:bg-emerald-500/10 border border-slate-200/80 transition space-y-1">
+              <div class="flex justify-between font-extrabold text-slate-900"><span>🥪 Sándwich Doble Proteico</span><span class="text-emerald-600">+380 kcal</span></div>
+              <p class="text-[11px] text-slate-500">Pan integral, pechuga de pollo o atún, aguacate. No requiere refrigeración inmediata.</p>
+              <div class="text-[10px] font-bold text-slate-400">24g Proteína • 48g Carbos • 9g Grasa</div>
+            </div>
+
+            <div onclick="addQuickMeal(420, 28, 52, 10, 'Licuado de Avena, Plátano y Proteína')" class="cursor-pointer p-3.5 rounded-2xl bg-slate-50 hover:bg-emerald-500/10 border border-slate-200/80 transition space-y-1">
+              <div class="flex justify-between font-extrabold text-slate-900"><span>🥤 Termo Shake Energético</span><span class="text-emerald-600">+420 kcal</span></div>
+              <p class="text-[11px] text-slate-500">Leche/agua, 1 plátano, 60g avena y 1 scoop de proteína o crema de cacahuate.</p>
+              <div class="text-[10px] font-bold text-slate-400">28g Proteína • 52g Carbos • 10g Grasa</div>
+            </div>
+
+            <div onclick="addQuickMeal(310, 18, 35, 11, 'Yogurt Griego con Fruta y Nueces')" class="cursor-pointer p-3.5 rounded-2xl bg-slate-50 hover:bg-emerald-500/10 border border-slate-200/80 transition space-y-1">
+              <div class="flex justify-between font-extrabold text-slate-900"><span>🥣 Yogurt Griego + Granola</span><span class="text-emerald-600">+310 kcal</span></div>
+              <p class="text-[11px] text-slate-500">Fácil de digerir entre sesiones de patio sin causar pesadez estomacal al moverte.</p>
+              <div class="text-[10px] font-bold text-slate-400">18g Proteína • 35g Carbos • 11g Grasa</div>
+            </div>
+
+            <div onclick="addQuickMeal(290, 9, 38, 12, 'Mix de Plátano, Cacahuates y Dátiles')" class="cursor-pointer p-3.5 rounded-2xl bg-slate-50 hover:bg-emerald-500/10 border border-slate-200/80 transition space-y-1">
+              <div class="flex justify-between font-extrabold text-slate-900"><span>🍌 Plátano + Mix de Semillas</span><span class="text-emerald-600">+290 kcal</span></div>
+              <p class="text-[11px] text-slate-500">Rico en potasio y magnesio para prevenir calambres bajo el calor de Chiapas.</p>
+              <div class="text-[10px] font-bold text-slate-400">9g Proteína • 38g Carbos • 12g Grasa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         MÓDULO 4: LOOP DE HÁBITOS, SUEÑO, FUERZA (HEVY) Y COPILOTO IA
+    ======================================================================== -->
+    <section id="bio-sec-habitos" class="hidden space-y-5">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+        <!-- Loop de Hábitos y Sueño + Bitácora de Fuerza (7 Col) -->
+        <div class="lg:col-span-7 space-y-5">
+          <!-- Sueño y Recuperación -->
+          <div class="apple-card p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-indigo-500/15 text-indigo-700">😴 Loop de Descanso</span>
+                <h3 class="font-extrabold text-base mt-1">Registro de Sueño y Reparación Tisular</h3>
+              </div>
+              <span id="sleep-hours-badge" class="text-sm font-black px-3 py-1 rounded-xl bg-indigo-500/15 text-indigo-700">7.5 hrs</span>
+            </div>
+            <p class="text-xs text-slate-500">El ligamento del tobillo y tu sistema nervioso se regeneran durante el sueño profundo (Meta: 7.5 a 8.5 hrs):</p>
+            <input type="range" id="sleep-range" min="4" max="10" step="0.5" value="7.5" oninput="updateSleepHours(this.value)" class="w-full accent-indigo-600 cursor-pointer" />
+          </div>
+
+          <!-- Bitácora Limpia de Fuerza y Gimnasio (Inspirado en Hevy) -->
+          <div class="apple-card p-5 space-y-4">
+            <div class="flex items-center justify-between border-b border-black/5 pb-3">
+              <div>
+                <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-slate-900 text-white">🏋️ Estilo Hevy • Sin Anuncios</span>
+                <h3 class="font-extrabold text-base mt-1">Bitácora de Fuerza y Sobrecarga Progresiva</h3>
+              </div>
+            </div>
+
+            <form onsubmit="addStrengthLog(event)" class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+              <input type="text" id="gym-ex-name" placeholder="Ejercicio (ej. Press Banca)" required class="col-span-2 px-3 py-2 font-semibold" />
+              <input type="number" id="gym-ex-weight" placeholder="Peso (kg)" step="0.5" required class="px-3 py-2 font-semibold" />
+              <input type="text" id="gym-ex-sets" placeholder="Series x Reps (4x10)" required class="px-3 py-2 font-semibold" />
+              <button type="submit" class="col-span-2 sm:col-span-1 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-2 px-3 rounded-xl">
+                + Guardar
+              </button>
+            </form>
+
+            <div id="gym-logs-list" class="space-y-2 max-h-56 overflow-y-auto text-xs"></div>
+          </div>
+        </div>
+
+        <!-- Copiloto Gemini IA: Fisioterapeuta & Nutriólogo Deportivo (5 Col) -->
+        <div class="lg:col-span-5 apple-card p-5 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between border-b border-black/5 pb-3">
+              <div>
+                <span id="bio-ai-status" class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700">
+                  ✨ Copiloto Bio-Salud IA
+                </span>
+                <h3 class="font-extrabold text-base mt-1">Coach de Readaptación y Nutrición</h3>
+                <p class="text-xs text-slate-500">Usa automáticamente la API Key de tu app de Planeaciones o el motor fisioterapéutico local.</p>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" onclick="askBioCoach('Diseña una rutina de 10 minutos para fortalecer mi tobillo hoy según mi test actual.')" class="text-[11px] font-bold px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">
+                🦶 Rutina Tobillo 10m
+              </button>
+              <button type="button" onclick="askBioCoach('Dame 3 ideas de desayunos y colaciones económicas en Tuxtla para aguantar 4 sesiones bajo el sol sin perder peso.')" class="text-[11px] font-bold px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">
+                🥗 Menú Día de Práctica
+              </button>
+              <button type="button" onclick="askBioCoach('¿Cómo descargo la fatiga de espalda baja y pies después de estar toda la mañana de pie en cancha?')" class="text-[11px] font-bold px-2.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">
+                🧘 Descarga Post-Patio
+              </button>
+            </div>
+
+            <div id="bio-ai-response" class="p-3.5 rounded-2xl bg-slate-950 text-slate-100 text-xs leading-relaxed min-h-[170px] max-h-[260px] overflow-y-auto whitespace-pre-line">
+              ¡Hola Profe! Soy tu Coach Bio-Salud. Evalúa tu tobillo en la pestaña 1 o toca cualquiera de los botones de arriba para recibir tu plan personalizado de readaptación, hidratación o nutrición.
+            </div>
+          </div>
+
+          <form onsubmit="handleBioAiSubmit(event)" class="flex gap-2">
+            <input type="text" id="bio-ai-input" placeholder="Pregúntale sobre tu tobillo, rutina o dieta..." class="flex-1 px-3 py-2 text-xs font-semibold" />
+            <button type="submit" class="bg-[#0071e3] hover:bg-[#0077ed] text-white font-extrabold text-xs px-4 py-2 rounded-xl">
+              Enviar
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       DOCK INFERIOR FLOTANTE PARA CELULAR Y TABLET
+  ========================================================================== -->
+  <nav class="fixed bottom-3 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-lg floating-dock text-white rounded-3xl px-3 py-2 flex items-center justify-around">
+    <a href="index.html" class="flex flex-col items-center gap-0.5 px-2.5 py-1 rounded-2xl hover:bg-white/10">
+      <span class="text-base">🏠</span>
+      <span class="text-[10px] font-bold text-slate-300">Hub</span>
+    </a>
+    <button type="button" onclick="switchBioTab('tobillo')" class="flex flex-col items-center gap-0.5 px-2.5 py-1 rounded-2xl hover:bg-white/10">
+      <span class="text-base">🦶</span>
+      <span class="text-[10px] font-bold text-emerald-300">Tobillo</span>
+    </button>
+    <button type="button" onclick="switchBioTab('hidratacion')" class="flex flex-col items-center gap-0.5 px-2.5 py-1 rounded-2xl hover:bg-white/10">
+      <span class="text-base">💧</span>
+      <span class="text-[10px] font-bold">Hidra/Voz</span>
+    </button>
+    <button type="button" onclick="switchBioTab('nutricion')" class="flex flex-col items-center gap-0.5 px-2.5 py-1 rounded-2xl hover:bg-white/10">
+      <span class="text-base">🥗</span>
+      <span class="text-[10px] font-bold">Nutrición</span>
+    </button>
+    <button type="button" onclick="switchBioTab('habitos')" class="flex flex-col items-center gap-0.5 px-2.5 py-1 rounded-2xl hover:bg-white/10">
+      <span class="text-base">🏋️</span>
+      <span class="text-[10px] font-bold">Fuerza/IA</span>
+    </button>
+  </nav>
+
+  <!-- =========================================================================
+       LÓGICA JAVASCRIPT CONECTADA AL ECOSISTEMA (HUB + ENLEF-NEM PRO)
+  ========================================================================== -->
+  <script>
+    const HUB_KEY = 'enlef_ecosystem_hub_v1';
+    const MAIN_APP_KEY = 'ENLEF_NEM_PRO_DB_V2';
+    const BIO_KEY = 'enlef_bio_habitos_v1';
+
+    // Catálogo de Ejercicios de Readaptación de Tobillo por Fase (Inspirado en Physitrack / Muscle & Motion)
+    const ANKLE_EXERCISES = {
+      1: [
+        { name: '1. Alfabeto Articular Activo', sets: '2 series • A a la Z', secs: 60, desc: 'Sentado con pierna elevada, dibuja el abecedario completo usando solo el movimiento del tobillo y pie sin dolor.' },
+        { name: '2. Dorsiflexión Progresiva (Knee-to-Wall)', sets: '3 series x 10 reps', secs: 45, desc: 'Pie frente a la pared; lleva la rodilla hacia adelante sin despegar el talón del suelo para ganar rango articular.' },
+        { name: '3. Isométricos en 4 Direcciones', sets: '4 empujes x 10 seg', secs: 45, desc: 'Presiona el borde externo e interno del pie contra una pared o mano sin mover la articulación.' },
+        { name: '4. Movilidad Plantar con Pelota', sets: '2 minutos suaves', secs: 90, desc: 'Rueda una pelota pequeña bajo el arco plantar para liberar tensión fascial post-jornada.' }
+      ],
+      2: [
+        { name: '1. Eversión con Banda Elástica (Peroneos)', sets: '3 series x 15 reps', secs: 60, desc: 'Con banda elástica en el antepié, lleva el pie hacia afuera de forma controlada (3 seg al bajar) para proteger el ligamento lateral.' },
+        { name: '2. Equilibrio Unipodal Activo (Reloj)', sets: '3 series x 40 seg', secs: 40, desc: 'Apoyo en un solo pie con rodilla ligeramente flexionada; con el otro pie toca puntos imaginarios a las 12, 3, 6 y 9.' },
+        { name: '3. Elevación de Talones Bipodal a Unipodal', sets: '3 series x 12 reps', secs: 50, desc: 'Sube con ambos pies en 1 segundo y baja lentamente en 3 segundos cargando mayor peso en el tobillo en readaptación.' },
+        { name: '4. Caminata de Talones y Puntas Controlada', sets: '3 pasadas de 30 seg', secs: 45, desc: 'Fortalece tibial anterior y complejo gastrocnemio-sóleo estabilizando el cuello del pie.' }
+      ],
+      3: [
+        { name: '1. Propiocepción con Atrape en Pared', sets: '3 series x 45 seg', secs: 45, desc: 'En apoyo unipodal, lanza y atrapa una pelota contra la pared manteniendo el centro de gravedad estable.' },
+        { name: '2. Aterrizajes Suaves (Drop Landings)', sets: '3 series x 8 reps', secs: 45, desc: 'Da un paso corto al frente y amortigua en un pie alineando cadera, rodilla y segundo dedo del pie.' },
+        { name: '3. Desplazamientos Laterales Defensivos', sets: '3 series x 40 seg', secs: 40, desc: 'Pasos laterales suaves en postura atlética simulando tus desplazamientos docentes en cancha.' },
+        { name: '4. Saltos Bipodales Reactivos Bajos (Pogo)', sets: '3 series x 30 seg', secs: 30, desc: 'Rebotes cortos y elásticos con ambos pies fortaleciendo el tendón de Aquiles.' }
+      ]
+    };
+
+    let bioState = {
+      selectedPhase: 2,
+      rehabSessionsCount: 0,
+      ankleTest: { pain: 2, balance: 25, dorsi: 9, swelling: 1, load: 'media', score: 85 },
+      fatigue: { ankle: 8, knees: 9, back: 8, voice: 8 },
+      hydra: { weight: 72, sessions: 3, climate: 0.4, goal: 3.2 },
+      vocalChecks: { c1: false, c2: false, c3: false },
+      nutrition: { mode: 0, gymLoad: 350, targetKcal: 2650, curKcal: 0, curPro: 0, curCarb: 0, curFat: 0 },
+      sleepHours: 7.5,
+      gymLogs: [
+        { id: 1, name: 'Elevación de Talones Excéntrica + Banda', weight: 15, sets: '3x15', date: 'Reciente' },
+        { id: 2, name: 'Sentadilla Goblet Controlada', weight: 24, sets: '4x10', date: 'Reciente' }
+      ]
+    };
+
+    let hubShared = {
+      theme: '',
+      solarMode: false,
+      waterLiters: 0,
+      rehabStreak: 0,
+      checks: { voice: false, ankle: false, mobility: false, nutrition: false }
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadAllStates();
+      evaluateAnkleTest(false);
+      selectRehabPhase(bioState.selectedPhase, false);
+      recalcHydrationGoal(false);
+      calcNutritionNeeds(false);
+      renderGymLogs();
+      updateFatigueMap(false);
+      setupPWA();
+    });
+
+    function loadAllStates() {
+      // 1. Leer Hub compartido
+      try {
+        const rawHub = localStorage.getItem(HUB_KEY);
+        if (rawHub) hubShared = { ...hubShared, ...JSON.parse(rawHub) };
+      } catch (e) {}
+
+      // 2. Si no hay tema en Hub, buscar en ENLEF_NEM_PRO_DB_V2
+      try {
+        const rawMain = localStorage.getItem(MAIN_APP_KEY);
+        if (rawMain) {
+          const mainParsed = JSON.parse(rawMain);
+          if (!hubShared.theme && mainParsed.theme) hubShared.theme = mainParsed.theme;
+          if (mainParsed.geminiApiKey) {
+            document.getElementById('bio-ai-status').textContent = '🟢 Conectado a Gemini 2.5 Flash';
+          }
+        }
+      } catch (e) {}
+
+      // 3. Leer estado propio de Bio-Hábitos
+      try {
+        const rawBio = localStorage.getItem(BIO_KEY);
+        if (rawBio) bioState = { ...bioState, ...JSON.parse(rawBio) };
+      } catch (e) {}
+
+      // Aplicar tema y modo solar
+      changeTheme(hubShared.theme, false);
+      if (hubShared.solarMode) document.body.classList.add('solar-mode');
+
+      // Poblar controles de Test de Tobillo
+      document.getElementById('test-pain').value = bioState.ankleTest.pain ?? 2;
+      document.getElementById('test-balance').value = bioState.ankleTest.balance ?? 25;
+      document.getElementById('test-dorsi').value = bioState.ankleTest.dorsi ?? 9;
+      document.getElementById('test-swelling').value = bioState.ankleTest.swelling ?? 1;
+      document.getElementById('test-court-load').value = bioState.ankleTest.load || 'media';
+      document.getElementById('kpi-ankle-sessions').textContent = bioState.rehabSessionsCount || 0;
+
+      // Poblar Hidratación y Voz
+      document.getElementById('hydra-weight').value = bioState.hydra.weight ?? 72;
+      document.getElementById('hydra-sessions').value = bioState.hydra.sessions ?? 3;
+      document.getElementById('hydra-climate').value = bioState.hydra.climate ?? 0.4;
+      document.getElementById('vocal-chk-1').checked = !!bioState.vocalChecks.c1;
+      document.getElementById('vocal-chk-2').checked = !!bioState.vocalChecks.c2;
+      document.getElementById('vocal-chk-3').checked = !!bioState.vocalChecks.c3;
+
+      // Poblar Sueño
+      document.getElementById('sleep-range').value = bioState.sleepHours ?? 7.5;
+      document.getElementById('sleep-hours-badge').textContent = `${bioState.sleepHours ?? 7.5} hrs`;
+
+      renderSharedIndicators();
+    }
+
+    function saveBioState() {
+      bioState.vocalChecks = {
+        c1: document.getElementById('vocal-chk-1').checked,
+        c2: document.getElementById('vocal-chk-2').checked,
+        c3: document.getElementById('vocal-chk-3').checked
+      };
+      localStorage.setItem(BIO_KEY, JSON.stringify(bioState));
+
+      // Sincronizar con el Hub Principal
+      hubShared.checks = hubShared.checks || {};
+      hubShared.checks.voice = bioState.vocalChecks.c1 || bioState.vocalChecks.c2;
+      localStorage.setItem(HUB_KEY, JSON.stringify(hubShared));
+      renderSharedIndicators();
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      document.getElementById('toast-text').textContent = msg;
+      box.classList.remove('hidden');
+      setTimeout(() => box.classList.add('hidden'), 2400);
+    }
+
+    function switchBioTab(tab) {
+      ['tobillo', 'hidratacion', 'nutricion', 'habitos'].forEach(t => {
+        const sec = document.getElementById(`bio-sec-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tab) {
+          sec.classList.remove('hidden');
+          btn.classList.add('active-seg');
+          btn.classList.remove('opacity-80');
+        } else {
+          sec.classList.add('hidden');
+          btn.classList.remove('active-seg');
+          btn.classList.add('opacity-80');
+        }
+      });
+    }
+
+    function changeTheme(themeVal, persist = true) {
+      document.body.classList.remove('theme-dark', 'theme-gala', 'theme-chiapas', 'theme-esmeralda');
+      if (themeVal) document.body.classList.add(themeVal);
+      document.getElementById('theme-selector').value = themeVal || '';
+      if (persist) {
+        hubShared.theme = themeVal || '';
+        saveBioState();
+      }
+    }
+
+    function toggleSolar() {
+      document.body.classList.toggle('solar-mode');
+      hubShared.solarMode = document.body.classList.contains('solar-mode');
+      saveBioState();
+    }
+
+    // =========================================================================
+    // 1. TEST FUNCIONAL DE TOBILLO Y RUTINAS PROGRESIVAS
+    // =========================================================================
+    function evaluateAnkleTest(persist = true) {
+      const pain = parseInt(document.getElementById('test-pain').value, 10) || 0;
+      const balance = parseInt(document.getElementById('test-balance').value, 10) || 0;
+      const dorsi = parseInt(document.getElementById('test-dorsi').value, 10) || 5;
+      const swelling = parseInt(document.getElementById('test-swelling').value, 10) || 0;
+      const load = document.getElementById('test-court-load').value;
+
+      document.getElementById('lbl-test-pain').textContent = `${pain} / 10`;
+      document.getElementById('lbl-test-balance').textContent = `${balance} seg`;
+      document.getElementById('lbl-test-dorsi').textContent = `${dorsi} cm`;
+
+      // Cálculo de Índice Funcional (0 a 100%)
+      const painPts = (10 - pain) * 4.5; // máx 45
+      const balPts = (balance / 45) * 30; // máx 30
+      const dorsiPts = (dorsi / 15) * 15; // máx 15
+      const swellPts = (2 - swelling) * 5; // máx 10
+      const score = Math.min(100, Math.max(10, Math.round(painPts + balPts + dorsiPts + swellPts)));
+
+      document.getElementById('kpi-ankle-score').textContent = `${score}%`;
+      document.getElementById('kpi-ankle-pain').textContent = `${pain}/10`;
+
+      let recPhase = 2;
+      let diagTitle = '';
+      let diagDesc = '';
+
+      if (pain >= 5 || swelling === 2 || score < 55) {
+        recPhase = 1;
+        diagTitle = '⚠️ Fase Recomendada Hoy: Fase 1 (Movilidad Suave e Isométricos)';
+        diagDesc = 'Hoy tu tobillo presenta sensibilidad o inflamación. Evita saltos o carreras bruscas al demostrar ejercicios en cancha; prioriza movilidad sin carga y usa el silbato para dirigir.';
+      } else if (score >= 82 && pain <= 1 && balance >= 30) {
+        recPhase = 3;
+        diagTitle = '🔥 Fase Recomendada Hoy: Fase 3 (Estabilidad Dinámica y Readaptación a Cancha)';
+        diagDesc = 'Excelente estabilidad unipodal y dorsiflexión. Puedes realizar ejercicios de propiocepción reactiva, desplazamientos laterales y fortalecimiento excéntrico completo.';
+      } else {
+        recPhase = 2;
+        diagTitle = '✅ Fase Recomendada Hoy: Fase 2 (Propiocepción y Banda Elástica)';
+        diagDesc = 'Tu articulación está lista para estímulos progresivos. Realiza eversión con banda para fortalecer peroneos y apoyos unipodales controlados.';
+      }
+
+      document.getElementById('ankle-phase-pill').textContent = `🦶 ${diagTitle}`;
+      document.getElementById('ankle-test-diagnosis').innerHTML = `
+        <div class="font-extrabold text-emerald-900 text-xs">${diagTitle}</div>
+        <p class="text-[11px] text-slate-600 leading-relaxed mt-1">${diagDesc}</p>
+      `;
+
+      if (persist) {
+        bioState.ankleTest = { pain, balance, dorsi, swelling, load, score };
+        saveBioState();
+      }
+    }
+
+    function saveAnkleTestLog() {
+      evaluateAnkleTest(true);
+      const recPhase = bioState.ankleTest.score < 55 ? 1 : (bioState.ankleTest.score >= 82 ? 3 : 2);
+      selectRehabPhase(recPhase, true);
+      showToast(`✅ Test guardado (${bioState.ankleTest.score}% funcional). Rutina ajustada a Fase ${recPhase}.`);
+    }
+
+    function selectRehabPhase(phaseNum, persist = true) {
+      bioState.selectedPhase = phaseNum;
+      [1, 2, 3].forEach(n => {
+        const b = document.getElementById(`phase-btn-${n}`);
+        if (n === phaseNum) {
+          b.className = 'px-2.5 py-1.5 rounded-lg bg-emerald-600 text-white font-extrabold';
+        } else {
+          b.className = 'px-2.5 py-1.5 rounded-lg text-slate-600 hover:bg-slate-200';
+        }
+      });
+
+      const list = ANKLE_EXERCISES[phaseNum] || ANKLE_EXERCISES[2];
+      const box = document.getElementById('rehab-exercises-container');
+      box.innerHTML = list.map((ex, i) => `
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col justify-between gap-2.5">
+          <div>
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700">${ex.sets}</span>
+              <span class="text-[11px] font-mono font-bold text-slate-400">⏱️ ${ex.secs}s</span>
+            </div>
+            <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm mt-1.5">${ex.name}</h4>
+            <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">${ex.desc}</p>
+          </div>
+          <button type="button" onclick="startExerciseTimer('${ex.name}', '${ex.desc}', ${ex.secs})" class="w-full bg-emerald-600/10 hover:bg-emerald-600 hover:text-white text-emerald-700 font-extrabold text-xs py-2 rounded-xl transition">
+            ▶ Cargar en Cronómetro (${ex.secs}s)
+          </button>
+        </div>
+      `).join('');
+
+      if (persist) saveBioState();
+    }
+
+    // Cronómetro Interactivo de Rehabilitación con Aviso Acústico
+    let rehabSeconds = 45;
+    let rehabInterval = null;
+
+    function startExerciseTimer(title, desc, secs) {
+      clearInterval(rehabInterval);
+      rehabInterval = null;
+      rehabSeconds = secs;
+      document.getElementById('active-ex-title').textContent = `🦶 Activo: ${title}`;
+      document.getElementById('active-ex-desc').textContent = desc;
+      updateRehabTimerUI();
+      toggleRehabTimer();
+    }
+
+    function toggleRehabTimer() {
+      const btn = document.getElementById('rehab-timer-btn');
+      if (rehabInterval) {
+        clearInterval(rehabInterval);
+        rehabInterval = null;
+        btn.textContent = '▶ Reanudar';
+        document.getElementById('island-timer-label').textContent = '⏸ Pausado';
+      } else {
+        btn.textContent = '⏸ Pausar';
+        rehabInterval = setInterval(() => {
+          if (rehabSeconds > 0) {
+            rehabSeconds--;
+            updateRehabTimerUI();
+          } else {
+            clearInterval(rehabInterval);
+            rehabInterval = null;
+            playAcousticBeep();
+            btn.textContent = '▶ Iniciar';
+            document.getElementById('island-timer-label').textContent = '✅ ¡Serie Lista!';
+            showToast('🔔 ¡Serie completada! Cambia de pie o descansa.');
+          }
+        }, 1000);
+      }
+    }
+
+    function resetRehabTimer(secs = 45) {
+      clearInterval(rehabInterval);
+      rehabInterval = null;
+      rehabSeconds = secs;
+      updateRehabTimerUI();
+      document.getElementById('rehab-timer-btn').textContent = '▶ Iniciar';
+      document.getElementById('island-timer-label').textContent = '⏱️ Listo';
+    }
+
+    function updateRehabTimerUI() {
+      const m = String(Math.floor(rehabSeconds / 60)).padStart(2, '0');
+      const s = String(rehabSeconds % 60).padStart(2, '0');
+      document.getElementById('rehab-timer-display').textContent = `${m}:${s}`;
+      document.getElementById('island-timer-label').textContent = `⏱️ ${m}:${s}`;
+    }
+
+    function playAcousticBeep() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.25);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.4);
+      } catch (e) {}
+    }
+
+    function completeRehabSessionToday() {
+      bioState.rehabSessionsCount = (bioState.rehabSessionsCount || 0) + 1;
+      hubShared.rehabStreak = (hubShared.rehabStreak || 0) + 1;
+      hubShared.checks = hubShared.checks || {};
+      hubShared.checks.ankle = true;
+      hubShared.checks.mobility = true;
+      document.getElementById('kpi-ankle-sessions').textContent = bioState.rehabSessionsCount;
+      saveBioState();
+      showToast(`🔥 ¡Rutina de tobillo registrada! Racha actual: ${hubShared.rehabStreak} días.`);
+    }
+
+    function updateFatigueMap(persist = true) {
+      const a = parseInt(document.getElementById('fat-ankle').value, 10);
+      const k = parseInt(document.getElementById('fat-knees').value, 10);
+      const b = parseInt(document.getElementById('fat-back').value, 10);
+      const v = parseInt(document.getElementById('fat-voice').value, 10);
+
+      document.getElementById('fat-val-ankle').textContent = `${a}/10`;
+      document.getElementById('fat-val-knees').textContent = `${k}/10`;
+      document.getElementById('fat-val-back').textContent = `${b}/10`;
+      document.getElementById('fat-val-voice').textContent = `${v}/10`;
+
+      const avg = ((a + k + b + v) / 4).toFixed(1);
+      const badge = document.getElementById('fatigue-summary-badge');
+      if (avg >= 7.5) {
+        badge.textContent = `Estado Corporal: Óptimo (${avg}/10)`;
+        badge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-700';
+      } else if (avg >= 5.5) {
+        badge.textContent = `Fatiga Moderada (${avg}/10) • Prioriza Estiramiento`;
+        badge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-amber-500/15 text-amber-700';
+      } else {
+        badge.textContent = `Sobrecarga Alta (${avg}/10) • Requiere Descarga Hoy`;
+        badge.className = 'text-xs font-extrabold px-3 py-1 rounded-full bg-rose-500/15 text-rose-700';
+      }
+
+      if (persist) {
+        bioState.fatigue = { ankle: a, knees: k, back: b, voice: v };
+        saveBioState();
+      }
+    }
+
+    // =========================================================================
+    // 2. HIDRATACIÓN DINÁMICA SOLAR
+    // =========================================================================
+    function recalcHydrationGoal(persist = true) {
+      const w = parseFloat(document.getElementById('hydra-weight').value) || 70;
+      const s = parseFloat(document.getElementById('hydra-sessions').value) || 0;
+      const c = parseFloat(document.getElementById('hydra-climate').value) || 0;
+
+      // Base: 35ml por kg + 0.3L por sesión de 50 min en cancha + factor climático Tuxtla
+      const goal = Math.round(((w * 0.035) + (s * 0.28) + c) * 10) / 10;
+      bioState.hydra = { weight: w, sessions: s, climate: c, goal };
+
+      if (persist) saveBioState();
+      renderSharedIndicators();
+    }
+
+    function addWater(liters) {
+      hubShared.waterLiters = Math.round(((hubShared.waterLiters || 0) + liters) * 100) / 100;
+      saveBioState();
+      showToast(`💧 +${liters * 1000} ml registrados (${hubShared.waterLiters} L hoy)`);
+    }
+
+    function resetWater() {
+      hubShared.waterLiters = 0;
+      saveBioState();
+    }
+
+    function renderSharedIndicators() {
+      const curW = hubShared.waterLiters || 0;
+      const goalW = bioState.hydra?.goal || 3.2;
+      const pct = Math.min(100, Math.round((curW / goalW) * 100));
+
+      document.getElementById('island-water').textContent = curW.toFixed(1);
+      document.getElementById('island-streak').textContent = `${hubShared.rehabStreak || 0} 🔥`;
+      document.getElementById('hydra-current-txt').textContent = curW.toFixed(2);
+      document.getElementById('hydra-goal-txt').textContent = goalW.toFixed(1);
+      document.getElementById('hydra-pct-badge').textContent = `${pct}%`;
+      document.getElementById('hydra-progress-bar').style.width = `${pct}%`;
+    }
+
+    // =========================================================================
+    // 3. NUTRICIÓN Y CONTROL DE GASTO ENERGÉTICO (ESTILO MACROFACTOR)
+    // =========================================================================
+    function calcNutritionNeeds(persist = true) {
+      const w = parseFloat(document.getElementById('hydra-weight').value) || 72;
+      const sessions = parseFloat(document.getElementById('hydra-sessions').value) || 3;
+      const modeAdjust = parseFloat(document.getElementById('nutri-goal-mode').value) || 0;
+      const gymLoad = parseFloat(document.getElementById('nutri-gym-load').value) || 350;
+
+      // TMB + NEAT docente en cancha (aprox 140 kcal por sesión activa) + Entrenamiento personal
+      const baseKcal = w * 24 * 1.35;
+      const courtBurn = sessions * 140;
+      const targetKcal = Math.round(baseKcal + courtBurn + gymLoad + modeAdjust);
+
+      const proGoal = Math.round(w * 2.0); // 2g/kg para proteger masa muscular y reparar tejidos
+      const fatGoal = Math.round(w * 1.0);
+      const carbGoal = Math.max(150, Math.round((targetKcal - (proGoal * 4) - (fatGoal * 9)) / 4));
+
+      bioState.nutrition.targetKcal = targetKcal;
+      document.getElementById('nutri-target-kcal').textContent = `${targetKcal.toLocaleString()} kcal`;
+      document.getElementById('macro-pro-goal').textContent = proGoal;
+      document.getElementById('macro-carb-goal').textContent = carbGoal;
+      document.getElementById('macro-fat-goal').textContent = fatGoal;
+
+      updateNutritionUI();
+      if (persist) saveBioState();
+    }
+
+    function addQuickMeal(kcal, pro, carb, fat, label) {
+      bioState.nutrition.curKcal = (bioState.nutrition.curKcal || 0) + kcal;
+      bioState.nutrition.curPro = (bioState.nutrition.curPro || 0) + pro;
+      bioState.nutrition.curCarb = (bioState.nutrition.curCarb || 0) + carb;
+      bioState.nutrition.curFat = (bioState.nutrition.curFat || 0) + fat;
+
+      hubShared.checks = hubShared.checks || {};
+      hubShared.checks.nutrition = true;
+      updateNutritionUI();
+      saveBioState();
+      showToast(`🥗 ${label} sumado (+${kcal} kcal / +${pro}g Proteína)`);
+    }
+
+    function resetNutritionToday() {
+      bioState.nutrition.curKcal = 0;
+      bioState.nutrition.curPro = 0;
+      bioState.nutrition.curCarb = 0;
+      bioState.nutrition.curFat = 0;
+      updateNutritionUI();
+      saveBioState();
+    }
+
+    function updateNutritionUI() {
+      const n = bioState.nutrition;
+      document.getElementById('nutri-consumed-badge').textContent = `${n.curKcal || 0} / ${n.targetKcal || 2650} kcal`;
+      document.getElementById('macro-pro-cur').textContent = n.curPro || 0;
+      document.getElementById('macro-carb-cur').textContent = n.curCarb || 0;
+      document.getElementById('macro-fat-cur').textContent = n.curFat || 0;
+    }
+
+    // =========================================================================
+    // 4. HÁBITOS, SUEÑO, BITÁCORA HEVY Y COACH GEMINI IA
+    // =========================================================================
+    function updateSleepHours(val) {
+      bioState.sleepHours = parseFloat(val);
+      document.getElementById('sleep-hours-badge').textContent = `${val} hrs`;
+      saveBioState();
+    }
+
+    function addStrengthLog(e) {
+      e.preventDefault();
+      const name = document.getElementById('gym-ex-name').value.trim();
+      const weight = document.getElementById('gym-ex-weight').value;
+      const sets = document.getElementById('gym-ex-sets').value.trim();
+      if (!name) return;
+
+      bioState.gymLogs.unshift({
+        id: Date.now(),
+        name,
+        weight,
+        sets,
+        date: new Date().toLocaleDateString('es-MX', { day: '2-digit', month: 'short' })
+      });
+      document.getElementById('gym-ex-name').value = '';
+      document.getElementById('gym-ex-weight').value = '';
+      document.getElementById('gym-ex-sets').value = '';
+      saveBioState();
+      renderGymLogs();
+      showToast('🏋️ Serie registrada en tu bitácora de fuerza');
+    }
+
+    function removeGymLog(id) {
+      bioState.gymLogs = bioState.gymLogs.filter(x => x.id !== id);
+      saveBioState();
+      renderGymLogs();
+    }
+
+    function renderGymLogs() {
+      const box = document.getElementById('gym-logs-list');
+      if (!bioState.gymLogs || !bioState.gymLogs.length) {
+        box.innerHTML = `<div class="text-slate-400 text-center py-4">Sin registros aún. Agrega tu primer ejercicio arriba.</div>`;
+        return;
+      }
+      box.innerHTML = bioState.gymLogs.map(item => `
+        <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-2">
+          <div>
+            <div class="font-extrabold text-slate-900">${item.name}</div>
+            <div class="text-[11px] text-slate-500">${item.sets} • <strong>${item.weight} kg</strong> (${item.date})</div>
+          </div>
+          <button type="button" onclick="removeGymLog(${item.id})" class="text-rose-500 font-bold px-2">✕</button>
+        </div>
+      `).join('');
+    }
+
+    // Coach Bio-Salud IA (Conecta con la API Key guardada en ENLEF_NEM_PRO_DB_V2 o usa motor local)
+    async function askBioCoach(promptText) {
+      const out = document.getElementById('bio-ai-response');
+      out.textContent = '⏳ Analizando tu estado funcional de tobillo, hidratación y gasto calórico...';
+
+      let apiKey = '';
+      try {
+        const rawMain = localStorage.getItem(MAIN_APP_KEY);
+        if (rawMain) apiKey = JSON.parse(rawMain).geminiApiKey || '';
+      } catch (e) {}
+
+      if (apiKey) {
+        try {
+          const context = `Eres un Fisioterapeuta Deportivo y Nutriólogo especialista en Docentes de Educación Física en Tuxtla Gutiérrez, Chiapas. El usuario estudia en la ENLEF. Su test de tobillo hoy tiene ${bioState.ankleTest.score}% de funcionalidad (dolor ${bioState.ankleTest.pain}/10, equilibrio unipodal ${bioState.ankleTest.balance}s, dorsiflexión ${bioState.ankleTest.dorsi}cm). Lleva ${hubShared.waterLiters}L de agua y su meta calórica es ${bioState.nutrition.targetKcal} kcal. Responde de forma práctica, empática y estructurada.`;
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: `${context}\n\nPregunta: ${promptText}` }] }] })
+          });
+          const data = await res.json();
+          const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (reply) {
+            out.textContent = reply;
+            return;
+          }
+        } catch (err) {}
+      }
+
+      // Respuesta Inteligente Offline basada en el Test Real del Usuario
+      const s = bioState.ankleTest.score;
+      const p = bioState.ankleTest.pain;
+      if (promptText.toLowerCase().includes('tobillo') || promptText.toLowerCase().includes('rutina')) {
+        out.textContent = `🦶 PLAN PERSONALIZADO SEGÚN TU TEST DE HOY (${s}% Funcional | Dolor ${p}/10):\n\n` +
+          `1. Calentamiento Articular (2 min): Alfabeto activo con el pie antes de ponerte el calzado deportivo.\n` +
+          `2. Movilidad Dorsiflexión (3x10): Rodilla a la pared sin despegar talón (actualmente estás en ${bioState.ankleTest.dorsi} cm, buscamos llegar a 11-12 cm simétricos).\n` +
+          `3. Estabilidad Lateral (3x15): Eversión con banda elástica lenta (3 segundos en fase excéntrica) para blindar los tendones peroneos.\n` +
+          `4. Propiocepción (3x${bioState.ankleTest.balance}s): Apoyo en un pie sobre piso firme mirando al frente.`;
+      } else if (promptText.toLowerCase().includes('desayuno') || promptText.toLowerCase().includes('menú') || promptText.toLowerCase().includes('colaciones')) {
+        out.textContent = `🥗 ESTRATEGIA NUTRICIONAL ANTI-DÉFICIT (${bioState.nutrition.targetKcal} kcal recomendadas hoy):\n\n` +
+          `• Antes de ir a la escuela: 3 huevos revueltos con avena + 1 plátano (energía sostenida).\n` +
+          `• En el receso de 10 min (Patio): Sándwich doble de pollo/atún o Termo Shake de avena, leche y crema de cacahuate (+400 kcal rápidas sin pesadez).\n` +
+          `• Hidratación en Tuxtla: Lleva tu termo de ${bioState.hydra.goal} L y agrega electrolitos en la segunda mitad de la mañana.`;
+      } else {
+        out.textContent = `🧘 PROTOCOLO DE DESCARGA POST-JORNADA:\n\n` +
+          `1. Eleva las piernas 10 minutos contra la pared al llegar a casa para favorecer el retorno venoso y reducir cualquier inflamación residual del tobillo.\n` +
+          `2. Pasa una pelota firme bajo la fascia plantar durante 2 minutos por pie.\n` +
+          `3. Hidrátate con al menos 500 ml de agua al terminar tu última sesión y procura dormir entre 7.5 y 8 horas esta noche.`;
+      }
+    }
+
+    function handleBioAiSubmit(e) {
+      e.preventDefault();
+      const inp = document.getElementById('bio-ai-input');
+      const val = inp.value.trim();
+      if (!val) return;
+      inp.value = '';
+      askBioCoach(val);
+    }
+
+    // Configuración PWA para instalar desde GitHub Pages
+    let deferredPrompt = null;
+    function setupPWA() {
+      window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+    }
+    function installPWA() {
+      if (deferredPrompt) deferredPrompt.prompt();
+      else alert('📲 Para instalar Bio-Hábitos como App:\n• En iPhone/iPad: Toca Compartir -> Agregar a pantalla de inicio.\n• En Android/PC: Menú del navegador -> Instalar aplicación.');
+    }
+  </script>
+</body>
+</html>
