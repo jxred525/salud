@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#059669" id="meta-theme-color" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Bio-Hábitos EF" />
+  <title>Bio-Hábitos & Readaptación | Ecosistema ENLEF</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg-app: #f5f5f7;
+      --bg-surface: rgba(255, 255, 255, 0.90);
+      --bg-header: rgba(255, 255, 255, 0.84);
+      --text-main: #1d1d1f;
+      --text-muted: #6e6e73;
+      --accent-primary: #059669;
+      --card-border: rgba(0, 0, 0, 0.08);
+      --card-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.02);
+      --seg-bg: rgba(118, 118, 128, 0.12);
+    }
+
+    body.theme-gala { --bg-app: #f0f4f9; --bg-header: rgba(11, 19, 43, 0.92); --accent-primary: #2563eb; }
+    body.theme-chiapas { --bg-app: #faf6f6; --bg-header: rgba(74, 14, 23, 0.92); --accent-primary: #9f1239; }
+    body.theme-esmeralda { --bg-app: #f2f8f5; --bg-header: rgba(6, 44, 33, 0.92); --accent-primary: #059669; }
+    body.theme-dark {
+      --bg-app: #000000;
+      --bg-surface: rgba(28, 28, 30, 0.92);
+      --bg-header: rgba(20, 20, 22, 0.88);
+      --text-main: #f5f5f7;
+      --text-muted: #98989d;
+      --accent-primary: #10b981;
+      --card-border: rgba(255, 255, 255, 0.12);
+      --seg-bg: rgba(118, 118, 128, 0.24);
+    }
+
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Plus Jakarta Sans', 'Inter', sans-serif;
+      background-color: var(--bg-app);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 48%),
+        radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.08) 0px, transparent 48%);
+      color: var(--text-main);
+      letter-spacing: -0.015em;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+      max-width: 100vw;
+      width: 100%;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    header.app-header {
+      background: var(--bg-header) !important;
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      border-bottom: 1px solid var(--card-border) !important;
+    }
+
+    body.theme-gala header.app-header,
+    body.theme-chiapas header.app-header,
+    body.theme-esmeralda header.app-header,
+    body.theme-dark header.app-header { color: #ffffff; }
+
+    .apple-card {
+      background: var(--bg-surface) !important;
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border: 1px solid var(--card-border) !important;
+      border-radius: 24px !important;
+      box-shadow: var(--card-shadow) !important;
+    }
+
+    body.theme-dark .apple-card { color: #f5f5f7 !important; }
+    body.theme-dark .bg-slate-50,
+    body.theme-dark .bg-slate-100 { background-color: rgba(44, 44, 46, 0.78) !important; border-color: rgba(255, 255, 255, 0.1) !important; color: #f5f5f7 !important; }
+    body.theme-dark .text-slate-900,
+    body.theme-dark .text-slate-800,
+    body.theme-dark .text-slate-700 { color: #f5f5f7 !important; }
+    body.theme-dark .text-slate-600,
+    body.theme-dark .text-slate-500 { color: #a1a1a6 !important; }
+
+    select, input[type="text"], input[type="number"], textarea {
+      max-width: 100%;
+      min-width: 0;
+      box-sizing: border-box;
+      border-radius: 14px !important;
+      border: 1px solid rgba(0, 0, 0, 0.12) !important;
+      background-color: rgba(255, 255, 255, 0.94);
+      color: #1d1d1f;
+      transition: all 0.2s ease !important;
+    }
+
+    body.theme-dark select,
+    body.theme-dark input,
+    body.theme-dark textarea {
+      background-color: rgba(44, 44, 46, 0.94) !important;
+      border-color: rgba(255, 255, 255, 0.16) !important;
+      color: #f5f5f7 !important;
+    }
+
+    select:focus, input:focus, textarea:focus {
+      border-color: var(--accent-primary) !important;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18) !important;
+      outline: none !important;
+    }
+
+    button { transition: all 0.18s cubic-bezier(0.25, 1, 0.5, 1) !important; }
+    button:active { transform: scale(0.96) !important; }
+
+    .dynamic-island {
+      background: #000000;
+      color: #ffffff;
+      border-radius: 9999px;
+      padding: 5px 12px;
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .bio-glow {
+      background: linear-gradient(135deg, #059669 0%, #0284c7 55%, #4f46e5 100%);
+    }
+
+    .apple-segmented-wrap {
+      background: var(--seg-bg);
+      padding: 4px;
+      border-radius: 16px;
+    }
+
+    .seg-btn { border-radius: 12px !important; font-weight: 600 !important; }
+    .seg-btn.active-seg {
+      background: #ffffff !important;
+      color: #1d1d1f !important;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10) !important;
+      font-weight: 800 !important;
+    }
+    body.theme-dark .seg-btn.active-seg {
+      background: #2c2c2e !important;
+      color: #ffffff !important;
+    }
+
+    /* Modo Solar para Patio */
+    body.solar-mode { background: #ffffff !important; color: #000000 !important; }
+    body.solar-mode .apple-card, body.solar-mode .bg-slate-50 { background: #ffffff !important; border: 2px solid #000000 !important; box-shadow: none !important; }
+    body.solar-mode p, body.solar-mode label, body.solar-mode span, body.solar-mode h1, body.solar-mode h2, body.solar-mode h3, body.solar-mode h4 { color: #000000 !important; font-weight: 700 !important; }
+    body.solar-mode input, body.solar-mode select, body.solar-mode textarea { border: 2px solid #000000 !important; background: #fefce8 !important; color: #000000 !important; font-weight: 700 !important; }
+
+    .floating-dock {
+      background: rgba(20, 24, 22, 0.88);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.45);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col pb-24 lg:pb-12">
+
+  <!-- NOTIFICACIÓN FLOTANTE TOAST -->
+  <div id="toast-box" class="hidden fixed top-16 right-4 z-50 bg-slate-950 text-white px-4 py-2.5 rounded-2xl shadow-xl border border-white/15 text-xs font-bold flex items-center gap-2">
+    <span>✨</span>
+    <span id="toast-text">Guardado</span>
+  </div>
+
+  <!-- =========================================================================
+       HEADER DE BIO-HÁBITOS CON CONEXIÓN AL HUB Y PLANEACIONES
+  ========================================================================== -->
+  <header class="app-header sticky top-0 z-40 w-full">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2.5">
+      <!-- Identidad + Botón Volver al Hub -->
+      <div class="flex items-center justify-between gap-2 min-w-0">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <a href="index.html" class="px-2.5 py-1.5 rounded-xl bg-black/5 hover:bg-black/10 border border-black/10 text-xs font-extrabold flex items-center gap-1 shrink-0" title="Volver al Hub Central">
+            🏠 <span class="hidden sm:inline">Hub</span>
+          </a>
+          <div class="w-9 h-9 shrink-0 rounded-2xl bio-glow flex items-center justify-center shadow-md font-extrabold text-white text-sm">
+            🌿
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <h1 class="font-extrabold text-xs sm:text-base tracking-tight truncate">Bio-Hábitos & Readaptación EF</h1>
+              <span class="hidden sm:inline-flex items-center gap-1 text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 border border-emerald-500/25">
+                Salud • Tobillo • Nutrición
+              </span>
+            </div>
+            <p class="text-[10px] sm:text-xs opacity-70 truncate">Sincronizado con ENLEF Hub • Tuxtla Gutiérrez, Chiapas</p>
+          </div>
+        </div>
+
+        <!-- Controles Visuales y PWA -->
+        <div class="flex items-center gap-1.5 shrink-0">
+          <select onchange="changeTheme(this.value)" id="theme-selector" class="text-[11px] font-semibold px-2 py-1.5 rounded-xl cursor-pointer">
+            <option value=""> Cupertino</option>
+            <option value="theme-dark">🌙 Sequoia Dark</option>
+            <option value="theme-esmeralda">🌿 Esmeralda</option>
+            <option value="theme-gala">🏛️ Gala Azul</option>
+            <option value="theme-chiapas">🍷 Guinda</option>
+          </select>
+          <button type="button" onclick="toggleSolar()" class="px-2 py-1.5 rounded-xl text-[11px] font-bold bg-amber-500/15 text-amber-600 border border-amber-500/30" title="Modo Alto Contraste Solar">
+            ☀️
+          </button>
+          <button type="button" onclick="installPWA()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] px-2.5 py-1.5 rounded-full shadow-sm">
+            📲 <span class="hidden md:inline">Instalar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- DYNAMIC ISLAND: CRONÓMETRO REHAB ACTIVO + AGUA + RACHA -->
+      <div class="flex flex-wrap items-center justify-between sm:justify-end gap-2">
+        <div class="dynamic-island flex items-center gap-2.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="island-timer-label" class="font-mono font-extrabold text-xs text-emerald-300">⏱️ Listo</span>
+          <span class="text-zinc-600">|</span>
+          <button type="button" onclick="addWater(0.25)" class="text-[11px] font-bold text-sky-300 hover:text-sky-200 flex items-center gap-1" title="+250 ml de agua">
+            💧 <span id="island-water">0.0</span>L
+          </button>
+          <span class="text-zinc-600">|</span>
+          <span id="island-streak" class="text-[11px] font-extrabold text-amber-300">0 🔥</span>
+        </div>
+
+        <a href="planeaciones.html" class="px-3 py-1.5 rounded-full text-[11px] font-bold bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 border border-blue-500/25 flex items-center gap-1">
+          📋 <span>Ir a Planeaciones</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- NAVEGACIÓN DE LOS 4 MÓDULOS DE BIO-HÁBITOS -->
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 pb-2.5">
+      <div class="apple-segmented-wrap grid grid-cols-2 sm:grid-cols-4 gap-1">
+        <button type="button" onclick="switchBioTab('tobillo')" id="tab-btn-tobillo" class="seg-btn active-seg py-2 px-3 text-xs flex items-center justify-center gap-1.5">
+          <span>🦶 1. Test & Tobillo</span>
+        </button>
+        <button type="button" onclick="switchBioTab('hidratacion')" id="tab-btn-hidratacion" class="seg-btn py-2 px-3 text-xs flex items-center justify-center gap-1.5 opacity-80">
+          <span>💧 2. Hidratación & Voz</span>
+        </button>
+        <button type="button" onclick="switchBioTab('nutricion')" id="tab-btn-nutricion" class="seg-btn py-2 px-3 text-xs flex items-center justify-center gap-1.5 opacity-80">
+          <span>🥗 3. Nutrición & Patio</span>
+        </button>
+        <button type="button" onclick="switchBioTab('habitos')" id="tab-btn-habitos" class="seg-btn py-2 px-3 text-xs flex items-center justify-center gap-1.5 opacity-80">
+          <span>🏋️ 4. Hábitos, Sueño & IA</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       CONTENIDO PRINCIPAL
+  ========================================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 py-5 space-y-6">
+
+    <!-- =======================================================================
+         MÓDULO 1: TEST FUNCIONAL Y READAPTACIÓN DE TOBILLO (PROPIOCEPCIÓN)
+    ======================================================================== -->
+    <section id="bio-sec-tobillo" class="space-y-5">
+      <!-- Banner de Estado del Tobillo -->
+      <div class="rounded-3xl p-5 sm:p-6 bg-gradient-to-r from-emerald-950 via-teal-900 to-slate-900 text-white shadow-xl border border-white/10 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="space-y-1.5">
+          <span id="ankle-phase-pill" class="text-[10px] font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-300 border border-emerald-400/30">
+            🦶 Fase Recomendada Hoy: Fase 2 • Propiocepción y Fortalecimiento
+          </span>
+          <h2 class="text-lg sm:text-2xl font-extrabold tracking-tight">Laboratorio de Readaptación de Tobillo y Biomecánica</h2>
+          <p class="text-xs sm:text-sm text-slate-200 max-w-2xl">
+            Deja atrás el reposo absoluto con movilidad articular progresiva, ejercicios de propiocepción e isométricos antes y después de tus jornadas en cancha.
+          </p>
+        </div>
+        <div class="grid grid-cols-3 gap-2.5 shrink-0">
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3 text-center">
+            <div id="kpi-ankle-score" class="text-lg sm:text-xl font-black text-emerald-300">85%</div>
+            <div class="text-[10px] uppercase font-bold text-slate-300">Índice Funcional</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3 text-center">
+            <div id="kpi-ankle-pain" class="text-lg sm:text-xl font-black text-sky-300">2/10</div>
+            <div class="text-[10px] uppercase font-bold text-slate-300">Dolor Hoy</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-3 text-center">
+            <div id="kpi-ankle-sessions" class="text-lg sm:text-xl font-black text-amber-300">0</div>
+            <div class="text-[10px] uppercase font-bold text-slate-300">Sesiones Rehab</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+        <!-- COLUMNA IZQUIERDA (5 COL): TEST DIARIO DE TOBILLO (30 SEGUNDOS) -->
+        <div class="lg:col-span-5 apple-card p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-black/5 pb-3">
+            <div>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700">🩺 Test Diario</span>
+              <h3 class="font-extrabold text-base mt-1">Evaluación Funcional del Tobillo</h3>
+              <p class="text-xs text-slate-500">Mide cómo amaneció tu articulación hoy antes de ir a la escuela:</p>
+            </div>
+          </div>
+
+          <div class="space-y-3.5 text-xs">
+            <div>
+              <div class="flex justify-between font-bold mb-1">
+                <label>1. Nivel de Dolor o Molestia al Apoyar (0 = Nulo, 10 = Severo):</label>
+                <span id="lbl-test-pain" class="text-emerald-600 font-extrabold">2 / 10</span>
+              </div>
+              <input type="range" id="test-pain" min="0" max="10" step="1" value="2" oninput="evaluateAnkleTest()" class="w-full accent-emerald-600 cursor-pointer" />
+            </div>
+
+            <div>
+              <div class="flex justify-between font-bold mb-1">
+                <label>2. Equilibrio Unipodal sin Dolor (Segundos en 1 pie):</label>
+                <span id="lbl-test-balance" class="text-blue-600 font-extrabold">25 seg</span>
+              </div>
+              <input type="range" id="test-balance" min="0" max="45" step="5" value="25" oninput="evaluateAnkleTest()" class="w-full accent-blue-600 cursor-pointer" />
+            </div>
+
+            <div>
+              <div class="flex justify-between font-bold mb-1">
+                <label>3. Test Rodilla a la Pared (Dorsiflexión en cm sin despegar talón):</label>
+                <span id="lbl-test-dorsi" class="text-indigo-600 font-extrabold">9 cm</span>
+              </div>
+              <input type="range" id="test-dorsi" min="2" max="15" step="1" value="9" oninput="evaluateAnkleTest()" class="w-full accent-indigo-600 cursor-pointer" />
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block font-bold mb-1 text-slate-600">4. Inflamación Visual:</label>
+                <select id="test-swelling" onchange="evaluateAnkleTest()" class="w-full px-3 py-2 text-xs font-bold">
+                  <option value="0">Sin inflamación</option>
+                  <option value="1" selected>Leve al final del día</option>
+                  <option value="2">Moderada / Visible</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-bold mb-1 text-slate-600">5. Carga en Cancha Hoy:</label>
+                <select id="test-court-load" onchange="evaluateAnkleTest()" class="w-full px-3 py-2 text-xs font-bold">
+                  <option value="baja">Día Teórico ENLEF</option>
+                  <option value="media" selected>Práctica Moderada (1-3 sesiones)</option>
+                  <option value="alta">Jornada Intensa (4-6 sesiones)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Diagnóstico Automático del Test -->
+            <div id="ankle-test-diagnosis" class="p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 space-y-1">
+              <div class="font-extrabold text-emerald-800 text-xs">✅ Diagnóstico Funcional: Listo para Propiocepción y Banda (Fase 2)</div>
+              <p class="text-[11px] text-slate-600 leading-relaxed">
+                Tu rango de dorsiflexión y estabilidad permiten realizar ejercicios activos de fortalecimiento peroneo y apoyo unipodal. Usa calzado con buen soporte lateral en cancha.
+              </p>
+            </div>
+
+            <button type="button" onclick="saveAnkleTestLog()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs py-3 rounded-2xl shadow-md">
+              💾 Guardar Resultado del Test en Bitácora
+            </button>
+          </div>
+        </div>
+
+        <!-- COLUMNA DERECHA (7 COL): RUTINAS GUIADAS CON CRONÓMETRO INTERACTIVO -->
+        <div class="lg:col-span-7 apple-card p-5 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-black/5 pb-3">
+              <div>
+                <span class="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-blue-500/15 text-blue-700">🏃 Rutinas Progresivas</span>
+                <h3 class="font-extrabold text-base mt-1">Fisioterapeuta de Bolsillo (Cronómetro Serie por Serie)</h3>
+              </div>
+              <!-- Selector de Fase de Readaptación -->
+              <div class="flex gap-1 bg-slate-100 p-1 rounded-xl text-[11px] font-bold">
+                <button type="button" onclick="selectRehabPhase(1)" id="phase-btn-1" class="px-2.5 py-1.5 rounded-lg">Fase 1: Movilidad</button>
+                <button type="button" onclick="selectRehabPhase(2)" id="phase-btn-2" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 text-white">Fase 2: Propiocepción</button>
+                <button type="button" onclick="selectRehabPhase(3)" id="phase-btn-3" class="px-2.5 py-1.5 rounded-lg">Fase 3: Cancha</button>
+              </div>
+            </div>
+
+            <!-- Cronómetro Activo de Ejercicio -->
+            <div class="p-4 rounded-2xl bg-slate-950 text-white flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div>
+                <div class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-400" id="active-ex-title">Selecciona un ejercicio abajo o inicia el temporizador</div>
+                <div class="text-xs text-slate-300 mt-0.5" id="active-ex-desc">Al terminar el tiempo sonará un aviso acústico suave para cambiar de pie o descansar.</div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <span id="rehab-timer-display" class="font-mono text-2xl sm:text-3xl font-black text-emerald-400 px-3 py-1 rounded-xl bg-white/10">00:45</span>
+                <button type="button" onclick="toggleRehabTimer()" id="rehab-timer-btn" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs px-4 py-2.5 rounded-xl">
+                  ▶ Iniciar
+                </button>
+                <button type="button" onclick="resetRehabTimer(45)" class="bg-white/15 hover:bg-white/25 text-white font-bold text-xs px-3 py-2.5 rounded-xl">
+                  ↺
+                </button>
+              </div>
+            </div>
+
+            <!-- Lista de Ejercicios de la Fase Seleccionada -->
+            <div id="rehab-exercises-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          </div>
+
+          <div class="pt-3 border-t border-black/5 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <span class="text-xs text-slate-500">Al terminar tus ejercicios del día, regístralo para sumar a tu racha en el Hub:</span>
+            <button type="button" onclick="completeRehabSessionToday()" class="w-full sm:w-auto bg-[#0071e3] hover:bg-[#0077ed] text-white font-extrabold text-xs px-5 py-2.5 rounded-2xl shadow-sm">
+              ✅ Marcar Rutina de Tobillo Completada Hoy (+1 🔥)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bitácora Corporal Post-Jornada (Mapa de Fatiga Docente) -->
+      <div class="apple-card p-5 space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 class="font-extrabold text-sm sm:text-base">🗺️ Bitácora Corporal Post-Jornada (Control de Fatiga en Patio)</h3>
+            <p class="text-xs text-slate-500">Registra cómo terminas después de tus clases prácticas para prevenir sobrecargas articulares.</p>
+          </div>
+          <span id="fatigue-summary-badge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-700 self-start sm:self-auto">
+            Estado Corporal: Óptimo
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs pt-1">
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+            <div class="flex justify-between font-bold"><span>🦶 Estabilidad de Tobillos</span><span id="fat-val-ankle">8/10</span></div>
+            <input type="range" id="fat-ankle" min="1" max="10" value="8" oninput="updateFatigueMap()" class="w-full accent-emerald-600" />
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-1.5">
+            <div class="flex justify-between font-bold"><span>🦵 Rodillas y Tren Inferior</span><span id="fat-val-knees">9/10</span></div>
+            <input type="range
